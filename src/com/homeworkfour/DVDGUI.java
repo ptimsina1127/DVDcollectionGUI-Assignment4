@@ -82,15 +82,11 @@ public class DVDGUI implements DVDUserInterface {
 
 	private void doShowAll() {
 		
-		List all = dvdlist.showAll();
+		List<Object> all = dvdlist.showAll();
 		DefaultListModel<Object> listModel = new DefaultListModel<>();
 		for (Object i:all) {
 			listModel.addElement((DVD)i);
 		}
-		System.out.println(all.get(5));
-//		System.out.println("Is this a Joke");
-//		List showAll = dvdlist.showAll();
-//		System.out.println(showAll.toString());
 		String text = "The List of Movies";
 		JLabel label = new JLabel(text);
 		

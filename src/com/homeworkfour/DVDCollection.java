@@ -70,9 +70,9 @@ public class DVDCollection {
 		}
 	}
 	
-	public List showAll() {
+	public List<Object> showAll() {
 		//Show all DVDs
-		List list = new ArrayList<>();
+		List<Object> list = new ArrayList<>();
 		for (int i = 0; i < numdvds; ++i) {
 				list.add(dvdArray[i]);
 			}
