@@ -97,16 +97,28 @@ public class DVDCollection {
 //		return List;
 //	}
 
-	public String getDVDsByRating(String rating) {
+	public List<Object> getDVDsByRating(String rating) {
 		// Get DVDs by a specified rating
-		String matchedList = "";
+		List<Object> matchedList = new ArrayList<>();
 		for (int i = 0; i < numdvds; ++i) {
 			if (rating.equals(dvdArray[i].getRating())) {
-				matchedList += (dvdArray[i].toString());
+				matchedList.add(dvdArray[i]);
 			}
 		}
-		return matchedList.toString();
+		return matchedList;
 	}
+	
+	
+//	public String getDVDsByRating(String rating) {
+//		// Get DVDs by a specified rating
+//		String matchedList = "";
+//		for (int i = 0; i < numdvds; ++i) {
+//			if (rating.equals(dvdArray[i].getRating())) {
+//				matchedList += (dvdArray[i].toString());
+//			}
+//		}
+//		return matchedList.toString();
+//	}
 
 	public int getTotalRunningTime() {
 		// Get the total running time of all DVDs in the collection
