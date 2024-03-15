@@ -1,8 +1,6 @@
 package com.homeworkfour;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.security.AllPermission;
 import java.util.List;
 
 import javax.swing.*;
@@ -87,16 +85,12 @@ public class DVDGUI implements DVDUserInterface {
 		for (Object i:all) {
 			listModel.addElement((DVD)i);
 		}
-		String text = "The List of Movies";
-		JLabel label = new JLabel(text);
-		
+//		String text = "The List of Movies";
+//		JLabel label = new JLabel();
 	    JList<Object> list = new JList<>(listModel);
-	    //System.out.println(listModel.toString());
 		JScrollPane scrollPane = new JScrollPane(list);
-		
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.add(scrollPane, BorderLayout.CENTER);
-        
         JOptionPane.showMessageDialog(null, panel, "DVD Collection", JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -166,14 +160,19 @@ public class DVDGUI implements DVDUserInterface {
 	private void doGetTotalRunningTime() {
 
 		int total = dvdlist.getTotalRunningTime();
-		System.out.println("Total Running Time of DVDs: ");
+		System.out.println("Testing in Console, Total Running Time of DVDs: ");
 		System.out.println(total);
+
+        JOptionPane.showMessageDialog(null, "Total Running Time of DVDs in Minutes : " + total);
 
 	}
 
 	private void doSave() {
 
 		dvdlist.save();
+		JOptionPane.showMessageDialog(null, "Saved Successfully...");
+		JOptionPane.showMessageDialog(null, "Click OK to Exit");
+
 
 	}
 
