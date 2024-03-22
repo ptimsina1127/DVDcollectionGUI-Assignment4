@@ -24,7 +24,8 @@ public class DVDCollection {
 		// Return a string representation of the DVD collection
 		String st = "numdvds = " + numdvds + "\n" + "dvdArray.length = " + dvdArray.length + "\n";
 		for (int i = 0; i < numdvds; ++i) {
-			st = st + "dvdArray[" + i + "] = " + dvdArray[i].getTitle() + "/" + dvdArray[i].getRating() + "/"+ dvdArray[i].getRunningTime() + "\n";
+			st = st + "dvdArray[" + i + "] = " + dvdArray[i].getTitle() + "/" + dvdArray[i].getRating() + "/"
+					+ dvdArray[i].getRunningTime() + "\n";
 		}
 
 		return st;
@@ -69,33 +70,6 @@ public class DVDCollection {
 			}
 		}
 	}
-	
-	public List<Object> showAll() {
-		//Show all DVDs
-		List<Object> list = new ArrayList<>();
-		for (int i = 0; i < numdvds; ++i) {
-				list.add(dvdArray[i]);
-			}
-		return list;
-		}
-
-//	public String showAll() {
-//		//Show all DVDs
-//		String List = "";
-//		for (int i = 0; i < numdvds; ++i) {
-//				List+=(dvdArray[i].toString());
-//			}
-//		return List;
-//		}
-
-//	public List showAll() {
-//		// Show all DVDs
-//		List List = new ArrayList<List>();
-//		for (int i = 0; i < numdvds; ++i) {
-//			List.add(dvdArray[i].toString());
-//		}
-//		return List;
-//	}
 
 	public List<Object> getDVDsByRating(String rating) {
 		// Get DVDs by a specified rating
@@ -107,18 +81,6 @@ public class DVDCollection {
 		}
 		return matchedList;
 	}
-	
-	
-//	public String getDVDsByRating(String rating) {
-//		// Get DVDs by a specified rating
-//		String matchedList = "";
-//		for (int i = 0; i < numdvds; ++i) {
-//			if (rating.equals(dvdArray[i].getRating())) {
-//				matchedList += (dvdArray[i].toString());
-//			}
-//		}
-//		return matchedList.toString();
-//	}
 
 	public int getTotalRunningTime() {
 		// Get the total running time of all DVDs in the collection
@@ -187,5 +149,15 @@ public class DVDCollection {
 			}
 		}
 		return numdvds;
+	}
+
+	// New Feature added to show all dvds As one extra GUI feature of my choice.
+	public List<Object> showAll() {
+		// Show all DVDs
+		List<Object> list = new ArrayList<>();
+		for (int i = 0; i < numdvds; ++i) {
+			list.add(dvdArray[i]);
+		}
+		return list;
 	}
 }
