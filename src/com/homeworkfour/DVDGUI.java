@@ -2,9 +2,24 @@ package com.homeworkfour;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.File;
 import java.util.List;
 
-import javax.swing.*;
+import javax.imageio.ImageIO;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  * This class is an implementation of DVDUserInterface that uses JOptionPane to
@@ -78,23 +93,86 @@ public class DVDGUI implements DVDUserInterface {
 		} while (choice != commands.length - 1);
 		System.exit(0);
 	}
-
+// //This Should work for Without the thumbnail. Thumbnail is incomplete should be completed In Future. 
+//	private void doShowAll() {
+//
+//		List<Object> all = dvdlist.showAll();
+//		DefaultListModel<Object> listModel = new DefaultListModel<>();
+//		for (Object i : all) {
+//			listModel.addElement((DVD) i);
+//		}
+////		String text = "The List of Movies";
+////		JLabel label = new JLabel();
+//		JList<Object> list = new JList<>(listModel);
+//		JScrollPane scrollPane = new JScrollPane(list);
+//		JPanel panel = new JPanel(new BorderLayout());
+//		panel.add(scrollPane, BorderLayout.CENTER);
+//		JOptionPane.showMessageDialog(null, panel, "DVD Collection", JOptionPane.INFORMATION_MESSAGE);
+//	}
+	
 	private void doShowAll() {
-
+		// Load all DVDs
 		List<Object> all = dvdlist.showAll();
+
+		// Create a panel to hold the thumbnail and the list
+		JPanel panel = new JPanel(new BorderLayout());
+
+		// Add thumbnail image
+		JLabel thumbnailLabel = new JLabel();
+		thumbnailLabel.setPreferredSize(new Dimension(100, 300)); // Set preferred size for the thumbnail
+		panel.add(thumbnailLabel, BorderLayout.NORTH);
+
+		// Create a list model and populate it with DVD objects
 		DefaultListModel<Object> listModel = new DefaultListModel<>();
 		for (Object i : all) {
 			listModel.addElement((DVD) i);
 		}
-//		String text = "The List of Movies";
-//		JLabel label = new JLabel();
+
+		// Create a JList with the populated list model
 		JList<Object> list = new JList<>(listModel);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		// Add a list selection listener to the JList
+		list.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (!e.getValueIsAdjusting()) {
+					// Get the selected DVD
+					DVD selectedDVD = (DVD) list.getSelectedValue();
+					if (selectedDVD != null) {
+						// Refresh the thumbnail image with the selected DVD's image
+						refreshThumbnail(selectedDVD.getImageFilePath(), thumbnailLabel);
+					}
+				}
+			}
+		});
+
+		// Add the JList to a scroll pane and then add the scroll pane to the panel
 		JScrollPane scrollPane = new JScrollPane(list);
-		JPanel panel = new JPanel(new BorderLayout());
 		panel.add(scrollPane, BorderLayout.CENTER);
+
+		// Show the panel in a JOptionPane dialog
 		JOptionPane.showMessageDialog(null, panel, "DVD Collection", JOptionPane.INFORMATION_MESSAGE);
 	}
 
+	private void refreshThumbnail(String imagePath, JLabel thumbnailLabel) {
+		try {
+			// Read the image file and create a BufferedImage
+			File file = new File(imagePath);
+			BufferedImage img = ImageIO.read(file);
+
+			// Scale the image to fit the thumbnail label
+			Image scaledImg = img.getScaledInstance(thumbnailLabel.getWidth(), thumbnailLabel.getHeight(),
+					Image.SCALE_SMOOTH);
+
+			// Set the scaled image as the icon for the thumbnail label
+			thumbnailLabel.setIcon(new ImageIcon(scaledImg));
+		} catch (IOException ex) {
+			// Handle exceptions
+			ex.printStackTrace();
+		}
+	}
+	
 	private void doAddOrModifyDVD() {
 		while (true) {
 			// Create an array to store the titles of DVDs
@@ -243,10 +321,12 @@ public class DVDGUI implements DVDUserInterface {
 	}
 
 	private void doSave() {
-		dvdlist.save();
-		JOptionPane.showMessageDialog(null, "Saved Successfully...");
-		JOptionPane.showMessageDialog(null, "Click OK to Exit");
-
+		if (dvdlist.isModified()) {
+			dvdlist.save();
+			JOptionPane.showMessageDialog(null, "Saved Successfully...");
+		} else {
+			JOptionPane.showMessageDialog(null, "No Changes to Save. Click OK to Exit");
+		}
 	}
 
 }

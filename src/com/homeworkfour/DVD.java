@@ -50,4 +50,18 @@ public class DVD {
 		return title + "," + rating + "," + runningTime + "\n";
 	}
 
+	public String getImageFilePath() {
+		// Array containing all the paths
+	    String[] paths = {
+	        "thumbnails/Patriot.jpg",
+	        "thumbnails/Mary Poppins.jpg",
+	        "thumbnails/How Green Was My Valley.jpg",
+	        "thumbnails/A Hollywood Story.jpg",
+	        "thumbnails/A tale of two cities.jpg",
+	        "thumbnails/1776.jpg"
+	    };
+	    int randomIndex = (int) (Math.random() * paths.length);
+		return paths[randomIndex];
+	}
+
 }

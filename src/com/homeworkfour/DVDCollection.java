@@ -50,12 +50,14 @@ public class DVDCollection {
 
 		// If title doesn't exist, add a new DVD at the appropriate position
 		if (!titleSame) {
+
 			DVD dv = new DVD(title, rating, Integer.parseInt(runningTime));
 			int insertIndex = findIndex(title);
 
 			// Shift the array to insert the new DVD
 			shiftArrayToInsert(dv, insertIndex);
 			numdvds++;
+			modified = true;
 		}
 	}
 
@@ -107,20 +109,23 @@ public class DVDCollection {
 			e.printStackTrace();
 			loaded = false;
 		}
-
+		
+		modified = false; // To avoid loaddata triggering the modified flag. 
 		return loaded;
 	}
 
 	public void save() {
-		// Save DVD data to a file
-		String data = "";
-		try (FileWriter fileWriter = new FileWriter(sourceName)) {
-			for (int i = 0; i < numdvds; ++i) {
-				data += dvdArray[i].toString();
+		if (modified) {
+			// Save DVD data to a file if modified
+			String data = "";
+			try (FileWriter fileWriter = new FileWriter(sourceName)) {
+				for (int i = 0; i < numdvds; ++i) {
+					data += dvdArray[i].toString();
+				}
+				fileWriter.write(data.toString());
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			fileWriter.write(data.toString());
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -159,5 +164,9 @@ public class DVDCollection {
 			list.add(dvdArray[i]);
 		}
 		return list;
+	}
+
+	public boolean isModified() {
+		return modified;
 	}
 }
